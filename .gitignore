@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # api-football-fullDataset
-data/
+data_liga_*
 
 #IDEA .files
-.idea/
+.idea
