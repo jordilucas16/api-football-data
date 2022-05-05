@@ -128,8 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# api-football-fullDataset
-data_liga_*
-
 #IDEA .files
 .idea
