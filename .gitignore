@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# dataset
+/data_liga_*
+
 #IDEA .files
 .idea
