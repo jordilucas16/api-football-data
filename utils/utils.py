@@ -3,6 +3,8 @@ import pandas as pd
 import requests
 import json as json
 
+API_FOOTBALL_PLAYERS_ENDPOINT = "https://api-football-v1.p.rapidapi.com/v3/players"
+
 
 def get_api_keys_file(path):
     with open(path) as f:
@@ -12,6 +14,14 @@ def get_api_keys_file(path):
 def get_api_key():
     keys = get_api_keys_file('/home/jordilucas/.secret/api_football.json')
     return keys['api_football_key']
+
+
+def get_total_pages():
+    qs_liga = {"league": "140", "season": "2021", "page": 30}
+    json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, qs_liga, get_api_key)
+    parsed_stats_league = draw_pretty_json(json_response_stats_league)
+
+    return parsed_stats_league['paging']['total']
 
 
 def get_api_football(url, querystring, key, method="GET"):
