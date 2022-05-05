@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# api-football-fullDataset
+data/
+
+#IDEA .files
+.idea/
