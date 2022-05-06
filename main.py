@@ -1,6 +1,6 @@
 import datetime
 
-from utils.utils import get_api_football, draw_pretty_json, get_data_x_page, get_api_key, API_FOOTBALL_PLAYERS_ENDPOINT, \
+from utils.utils import get_data_x_page, get_api_key, API_FOOTBALL_PLAYERS_ENDPOINT, \
     get_total_pages
 
 

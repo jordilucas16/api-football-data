@@ -18,7 +18,7 @@ def get_api_key():
 
 def get_total_pages():
     qs_liga = {"league": "140", "season": "2021", "page": 30}
-    json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, qs_liga, get_api_key)
+    json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, qs_liga, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
 
     return parsed_stats_league['paging']['total']
