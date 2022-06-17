@@ -4,8 +4,10 @@ import requests
 import json as json
 
 API_FOOTBALL_PLAYERS_ENDPOINT = "https://api-football-v1.p.rapidapi.com/v3/players"
-SPANISH_LEAGUE="140"
-SEASON="2021"
+SPANISH_LEAGUE = "140"
+MAJOR_LEAGUE = "253"
+SEASON = "2021"
+TOO_MANY_REQUESTS = 429
 
 
 def get_api_keys_file(path):
@@ -19,8 +21,8 @@ def get_api_key():
 
 
 def get_total_pages():
-    qs_liga = {"league": SPANISH_LEAGUE, "season": SEASON, "page": 30}
-    json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, qs_liga, get_api_key())
+    querystring_ = {"league": SPANISH_LEAGUE, "season": SEASON, "page": 30}
+    json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, querystring_, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
 
     return parsed_stats_league['paging']['total']
@@ -37,7 +39,7 @@ def get_api_football(url, querystring, key, method="GET"):
     print(response.status_code, '::', response.url)
     print(response.headers)
 
-    if response.status_code == 429:
+    if response.status_code == TOO_MANY_REQUESTS:
         print(response.text)
         # time.sleep(61)
 
