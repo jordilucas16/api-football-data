@@ -1,4 +1,6 @@
 import time
+import os
+import datetime
 import pandas as pd
 import requests
 import json as json
@@ -18,6 +20,14 @@ def get_api_keys_file(path):
 def get_api_key():
     keys = get_api_keys_file('/home/jordilucas/.secret/api_football.json')
     return keys['api_football_key']
+
+
+def save_df_to_csv(df):
+    path = "data"
+    datetime_now = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
+    if not os.path.exists(path):
+        os.makedirs(path)
+    df.to_csv(path+'/df_championship_' + datetime_now + '.csv', index=False, header=True)
 
 
 def get_total_pages():
