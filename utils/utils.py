@@ -52,7 +52,7 @@ def draw_pretty_json(json_resp):
     return parsed
 
 
-def get_data_x_page(initial, page_num, url, key):
+def get_championship_data(initial, page_num, url, key):
     request_x_minute = 30
     df = pd.DataFrame()
     for page_ in range(initial, page_num + 1):
@@ -62,8 +62,9 @@ def get_data_x_page(initial, page_num, url, key):
         api_data = get_data(parsed)
         df = df.append(api_data)
 
+        # You have to control time between requests in the BASIC Plan.
         if page_ == request_x_minute - 2:
-            time.sleep(62)
+            time.sleep(122)
 
     return df
 

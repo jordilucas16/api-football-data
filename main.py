@@ -1,6 +1,6 @@
 import datetime
 
-from utils.utils import get_data_x_page, get_api_key, API_FOOTBALL_PLAYERS_ENDPOINT, \
+from utils.utils import get_championship_data, get_api_key, API_FOOTBALL_PLAYERS_ENDPOINT, \
     get_total_pages
 
 
@@ -9,7 +9,7 @@ def get_api_data():
     # Get API Key
     key = get_api_key()
     # Get championship dataset
-    df_championship = get_data_x_page(1, get_total_pages(), API_FOOTBALL_PLAYERS_ENDPOINT, key)
+    df_championship = get_championship_data(1, get_total_pages(), API_FOOTBALL_PLAYERS_ENDPOINT, key)
     # Get date now
     datetime_now = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
     # Save championship dataset in csv format
