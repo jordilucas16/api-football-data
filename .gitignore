@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # dataset
-/data_liga_*
+data/
 
 #IDEA .files
 .idea
