@@ -1,5 +1,5 @@
 from utils.utils import get_championship_data, get_api_key, API_FOOTBALL_PLAYERS_ENDPOINT, \
-    get_total_pages, save_df_to_csv
+    get_total_pages, save_df_to_csv, clean_weight_height
 
 
 def get_api_data():
@@ -9,7 +9,7 @@ def get_api_data():
     # Get championship dataset
     df_championship = get_championship_data(1, get_total_pages(), API_FOOTBALL_PLAYERS_ENDPOINT, key)
     # Save championship dataset in csv format
-    save_df_to_csv(df_championship)
+    save_df_to_csv(clean_weight_height(df_championship))
 
 
 # The main one.

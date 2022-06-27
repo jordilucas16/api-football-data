@@ -65,7 +65,7 @@ def draw_pretty_json(json_resp):
 def get_championship_data(initial, page_num, url, key):
     request_x_minute = 30
     df = pd.DataFrame()
-    for page_ in range(initial, page_num + 1):
+    for page_ in range(initial, 3 + 1):
         qs = {"league": SPANISH_LEAGUE, "season": SEASON, "page": page_}
         json_response = get_api_football(url, qs, key)
         parsed = json.loads(json_response)
@@ -74,7 +74,16 @@ def get_championship_data(initial, page_num, url, key):
 
         # You have to control time between requests in the BASIC Plan.
         if page_ == request_x_minute - 2:
-            time.sleep(122)
+            time.sleep(121)
+
+    return df
+
+
+def clean_weight_height(df):
+    df['Weight_kg'] = (df['Weight'].str.extract('^([0-9]{2,3})')).astype(float)
+    df['Height_cm'] = (df['Height'].str.extract('^([0-9]{3})')).astype(float)
+
+    df.drop(['Weight', 'Height'], axis=1, inplace=True)
 
     return df
 
