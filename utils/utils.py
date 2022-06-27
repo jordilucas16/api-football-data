@@ -7,6 +7,7 @@ import json as json
 
 API_FOOTBALL_PLAYERS_ENDPOINT = "https://api-football-v1.p.rapidapi.com/v3/players"
 SPANISH_LEAGUE = "140"
+SPANISH_LEAGUE_2 = "141"
 MAJOR_LEAGUE = "253"
 SEASON = "2021"
 TOO_MANY_REQUESTS = 429
