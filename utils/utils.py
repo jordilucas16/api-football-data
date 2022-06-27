@@ -65,7 +65,7 @@ def draw_pretty_json(json_resp):
 def get_championship_data(initial, page_num, url, key):
     request_x_minute = 30
     df = pd.DataFrame()
-    for page_ in range(initial, 3 + 1):
+    for page_ in range(initial, page_num + 1):
         qs = {"league": SPANISH_LEAGUE, "season": SEASON, "page": page_}
         json_response = get_api_football(url, qs, key)
         parsed = json.loads(json_response)
