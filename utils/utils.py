@@ -5,11 +5,25 @@ import pandas as pd
 import requests
 import json as json
 
+# Endpoints
 API_FOOTBALL_PLAYERS_ENDPOINT = "https://api-football-v1.p.rapidapi.com/v3/players"
+
+# Championship Codes
 SPANISH_LEAGUE = "140"
 SPANISH_LEAGUE_2 = "141"
+PREMIER_LEAGUE = "39"
+BUNDESLIGA = "78"
+EREDIVISE_LEAGUE = "88"
+# DENMARK_LEAGUE = "120"
+TURKEY_LEAGUE = "203"
 MAJOR_LEAGUE = "253"
+INDIA_LEAGUE = "323"
+# CAMEROON_LEAGUE = "411"
+
+# Season year
 SEASON = "2021"
+
+# Http Codes
 TOO_MANY_REQUESTS = 429
 
 
@@ -32,7 +46,7 @@ def save_df_to_csv(df):
 
 
 def get_total_pages():
-    querystring_ = {"league": SPANISH_LEAGUE, "season": SEASON, "page": 30}
+    querystring_ = {"league": CAMEROON_LEAGUE, "season": SEASON, "page": 30}
     json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, querystring_, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
 
@@ -67,7 +81,7 @@ def get_championship_data(initial, page_num, url, key):
     request_x_minute = 30
     df = pd.DataFrame()
     for page_ in range(initial, page_num + 1):
-        qs = {"league": SPANISH_LEAGUE, "season": SEASON, "page": page_}
+        qs = {"league": CAMEROON_LEAGUE, "season": SEASON, "page": page_}
         json_response = get_api_football(url, qs, key)
         parsed = json.loads(json_response)
         api_data = get_data(parsed)
