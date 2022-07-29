@@ -46,7 +46,7 @@ def save_df_to_csv(df):
 
 
 def get_total_pages():
-    querystring_ = {"league": CAMEROON_LEAGUE, "season": SEASON, "page": 30}
+    querystring_ = {"league": PREMIER_LEAGUE, "season": SEASON, "page": 30}
     json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, querystring_, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
 
@@ -81,7 +81,7 @@ def get_championship_data(initial, page_num, url, key):
     request_x_minute = 30
     df = pd.DataFrame()
     for page_ in range(initial, page_num + 1):
-        qs = {"league": CAMEROON_LEAGUE, "season": SEASON, "page": page_}
+        qs = {"league": PREMIER_LEAGUE, "season": SEASON, "page": page_}
         json_response = get_api_football(url, qs, key)
         parsed = json.loads(json_response)
         api_data = get_data(parsed)
