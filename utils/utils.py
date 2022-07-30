@@ -26,6 +26,9 @@ SEASON = "2021"
 # Http Codes
 TOO_MANY_REQUESTS = 429
 
+# Initial Page
+FIRST = 1
+
 
 def get_api_keys_file(path):
     with open(path) as f:
@@ -172,7 +175,6 @@ def get_data(parsed):
 
         # General
         id_player = response['player']['id']
-        position_list.append(stats['games']['position'])
         team = stats['team']['name']
         logo_team = stats['team']['logo']
         name = response['player']['name']
@@ -182,9 +184,11 @@ def get_data(parsed):
         nationality = response['player']['nationality']
         injured = response['player']['injured']
         photo = response['player']['photo']
+
+        # Appends
+        position_list.append(stats['games']['position'])
         rating_list.append(stats['games']['rating'])
         captain_list.append(stats['games']['captain'])
-
         age_list.append(age)
         height_list.append(height)
         weight_list.append(weight)
