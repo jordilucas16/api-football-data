@@ -17,6 +17,7 @@ class Test_API_football(unittest.TestCase):
     def test_get_api_football_response(self):
         print("Get API Football response Test")
         self.assertEqual(self._response.status_code, 200)
+        self.assertNotEqual(self._response.status_code, 204)
         self.assertNotEqual(self._response.status_code, 400)
         self.assertNotEqual(self._response.status_code, 404)
         self.assertNotEqual(self._response.status_code, 500)
