@@ -12,11 +12,12 @@ class Test_API_football(unittest.TestCase):
         cls._url = "https://api-football-v1.p.rapidapi.com/v3/players"
         # Put your own API Key here ;-)
         cls._key = get_api_key()
+        cls._response = get_api_response(cls._url, cls._qs, cls._key)
 
     def test_get_api_football_response(self):
         print("Get API Football response Test")
-        self.assertEqual(get_api_response(self._url, self._qs, self._key).status_code, 200)
-        self.assertNotEqual(get_api_response(self._url, self._qs, self._key).status_code, 400)
-        self.assertNotEqual(get_api_response(self._url, self._qs, self._key).status_code, 404)
-        self.assertNotEqual(get_api_response(self._url, self._qs, self._key).status_code, 500)
-        self.assertNotEqual(get_api_response(self._url, self._qs, self._key).status_code, TOO_MANY_REQUESTS)
+        self.assertEqual(self._response.status_code, 200)
+        self.assertNotEqual(self._response.status_code, 400)
+        self.assertNotEqual(self._response.status_code, 404)
+        self.assertNotEqual(self._response.status_code, 500)
+        self.assertNotEqual(self._response.status_code, TOO_MANY_REQUESTS)
