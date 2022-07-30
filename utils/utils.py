@@ -5,6 +5,9 @@ import pandas as pd
 import requests
 import json as json
 
+# Data Path
+DATA_PATH = "data"
+
 # Endpoints
 API_FOOTBALL_PLAYERS_ENDPOINT = "https://api-football-v1.p.rapidapi.com/v3/players"
 
@@ -41,11 +44,10 @@ def get_api_key():
 
 
 def save_df_to_csv(df):
-    path = "data"
     datetime_now = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
     if not os.path.exists(path):
         os.makedirs(path)
-    df.to_csv(path+'/df_championship_' + datetime_now + '.csv', index=False, header=True)
+    df.to_csv(DATA_PATH+'/df_championship_' + datetime_now + '.csv', index=False, header=True)
 
 
 def get_total_pages():
