@@ -45,8 +45,8 @@ def get_api_key():
 
 def save_df_to_csv(df):
     datetime_now = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
-    if not os.path.exists(path):
-        os.makedirs(path)
+    if not os.path.exists(DATA_PATH):
+        os.makedirs(DATA_PATH)
     df.to_csv(DATA_PATH+'/df_championship_' + datetime_now + '.csv', index=False, header=True)
 
 
