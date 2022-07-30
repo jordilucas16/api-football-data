@@ -58,13 +58,21 @@ def get_total_pages():
     return parsed_stats_league['paging']['total']
 
 
-def get_api_football(url, querystring, key, method="GET"):
+def get_api_response(url, querystring, key, method="GET"):
     url = url
     headers = {
         'x-rapidapi-key': key,
         'x-rapidapi-host': "api-football-v1.p.rapidapi.com"
     }
     response = requests.request(method, url, headers=headers, params=querystring)
+
+    return response
+
+
+def get_api_football():
+
+    response = get_api_response()
+
     json_response = response.text
     print(response.status_code, '::', response.url)
     print(response.headers)
