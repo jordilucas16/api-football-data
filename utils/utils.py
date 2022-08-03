@@ -23,7 +23,7 @@ MAJOR_LEAGUE = "253"
 INDIA_LEAGUE = "323"
 
 # Set the championship
-CHAMPIONSHIP = EREDIVISE_LEAGUE
+CHAMPIONSHIP = BUNDESLIGA
 
 # Season year
 SEASON = "2021"
@@ -92,10 +92,10 @@ def draw_pretty_json(json_resp):
     return parsed
 
 
-def get_championship_data(initial, page_num, url, key):
+def get_championship_data(url, key, initial=FIRST):
     request_x_minute = 30
     df = pd.DataFrame()
-    for page_ in range(initial, page_num + 1):
+    for page_ in range(initial, get_total_pages()):
         qs = {"league": CHAMPIONSHIP, "season": SEASON, "page": page_}
         json_response = get_api_football(url, qs, key)
         parsed = json.loads(json_response)
