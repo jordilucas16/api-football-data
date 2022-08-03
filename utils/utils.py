@@ -21,7 +21,9 @@ EREDIVISE_LEAGUE = "88"
 TURKEY_LEAGUE = "203"
 MAJOR_LEAGUE = "253"
 INDIA_LEAGUE = "323"
-# CAMEROON_LEAGUE = "411"
+
+# Set the championship
+CHAMPIONSHIP = EREDIVISE_LEAGUE
 
 # Season year
 SEASON = "2021"
@@ -47,11 +49,11 @@ def save_df_to_csv(df):
     datetime_now = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
     if not os.path.exists(DATA_PATH):
         os.makedirs(DATA_PATH)
-    df.to_csv(DATA_PATH+'/df_championship_' + datetime_now + '.csv', index=False, header=True)
+    df.to_csv(DATA_PATH+'/df_championship_' + CHAMPIONSHIP + '_' + datetime_now + '.csv', index=False, header=True)
 
 
 def get_total_pages():
-    querystring_ = {"league": PREMIER_LEAGUE, "season": SEASON, "page": 30}
+    querystring_ = {"league": CHAMPIONSHIP, "season": SEASON, "page": 30}
     json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, querystring_, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
 
@@ -69,9 +71,9 @@ def get_api_response(url, querystring, key, method="GET"):
     return response
 
 
-def get_api_football():
+def get_api_football(url, querystring, key):
 
-    response = get_api_response()
+    response = get_api_response(url, querystring, key, method="GET")
 
     json_response = response.text
     print(response.status_code, '::', response.url)
@@ -94,7 +96,7 @@ def get_championship_data(initial, page_num, url, key):
     request_x_minute = 30
     df = pd.DataFrame()
     for page_ in range(initial, page_num + 1):
-        qs = {"league": PREMIER_LEAGUE, "season": SEASON, "page": page_}
+        qs = {"league": CHAMPIONSHIP, "season": SEASON, "page": page_}
         json_response = get_api_football(url, qs, key)
         parsed = json.loads(json_response)
         api_data = get_data(parsed)
