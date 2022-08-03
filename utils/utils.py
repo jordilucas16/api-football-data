@@ -104,6 +104,7 @@ def get_championship_data(url, key, initial=FIRST):
 
         # You have to control time between requests in the BASIC Plan.
         if page_ == request_x_minute - 2:
+            # Sleep the process to avoid TOO_MANY_REQUESTS
             time.sleep(121)
 
     return df
