@@ -1,5 +1,5 @@
 from utils.utils import get_championship_data, get_api_key, API_FOOTBALL_PLAYERS_ENDPOINT, \
-    get_total_pages, save_df_to_csv, clean_weight_height, FIRST
+    save_df_to_csv, clean_weight_height
 
 
 def get_api_data():
