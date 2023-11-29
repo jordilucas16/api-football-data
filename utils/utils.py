@@ -27,6 +27,8 @@ CHAMPIONSHIP = SPANISH_LEAGUE
 
 # Season year
 SEASON = "2022"
+# Season year
+SEASON_23 = "2023"
 
 # Http Codes
 TOO_MANY_REQUESTS = 429
