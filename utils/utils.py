@@ -26,7 +26,7 @@ INDIA_LEAGUE = "323"
 CHAMPIONSHIP = SPANISH_LEAGUE
 
 # Season year
-SEASON = "2022"
+SEASON_22 = "2022"
 # Season year
 SEASON_23 = "2023"
 
@@ -55,7 +55,7 @@ def save_df_to_csv(df):
 
 
 def get_total_pages():
-    querystring_ = {"league": CHAMPIONSHIP, "season": SEASON, "page": 30}
+    querystring_ = {"league": CHAMPIONSHIP, "season": SEASON_22, "page": 30}
     json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, querystring_, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
 
@@ -98,7 +98,7 @@ def get_championship_data(url, key, initial=FIRST):
     request_x_minute = 30
     df = pd.DataFrame()
     for page_ in range(initial, get_total_pages()):
-        qs = {"league": CHAMPIONSHIP, "season": SEASON, "page": page_}
+        qs = {"league": CHAMPIONSHIP, "season": SEASON_22, "page": page_}
         json_response = get_api_football(url, qs, key)
         parsed = json.loads(json_response)
         api_data = get_data(parsed)
