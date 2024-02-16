@@ -135,7 +135,6 @@ def get_api_football(url: str, querystring: dict, key: str) -> str:
 
     if response.status_code == TOO_MANY_REQUESTS:
         print(response.text)
-        # time.sleep(61)
 
     return json_response
 
@@ -185,7 +184,7 @@ def get_championship_data(url: str, key: str, initial: int = FIRST) -> pd.DataFr
     return df
 
 
-def clean_weight_height(df)-> pd.DataFrame:
+def clean_weight_height(df: pd.DataFrame) -> pd.DataFrame:
     """
     Cleans the weight and height columns of a DataFrame.
 
@@ -203,7 +202,7 @@ def clean_weight_height(df)-> pd.DataFrame:
     return df
 
 
-# Loop all passes accuracy api page team
+
 def get_data(parsed)-> pd.DataFrame:
     """
     Extracts data from the parsed JSON response and returns it as a pandas DataFrame.
