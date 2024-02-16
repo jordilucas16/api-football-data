@@ -2,7 +2,7 @@ from utils.utils import get_championship_data, get_api_key, API_FOOTBALL_PLAYERS
     save_df_to_csv, clean_weight_height
 
 
-def get_api_data():
+def get_api_data()-> None:
 
     # Get API Key
     key = get_api_key()

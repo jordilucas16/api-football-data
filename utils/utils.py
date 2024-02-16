@@ -42,19 +42,19 @@ def get_api_keys_file(path):
         return json.load(f)
 
 
-def get_api_key():
+def get_api_key()-> str:
     keys = get_api_keys_file('/home/jordilucas/.secret/api_football.json')
     return keys['api_football_key']
 
 
-def save_df_to_csv(df):
+def save_df_to_csv(df)-> None:
     datetime_now = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
     if not os.path.exists(DATA_PATH):
         os.makedirs(DATA_PATH)
     df.to_csv(DATA_PATH+'/df_championship_' + CHAMPIONSHIP + '_' + datetime_now + '.csv', index=False, header=True)
 
 
-def get_total_pages():
+def get_total_pages()-> int:
     querystring_ = {"league": CHAMPIONSHIP, "season": SEASON_22, "page": 30}
     json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, querystring_, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
@@ -62,7 +62,7 @@ def get_total_pages():
     return parsed_stats_league['paging']['total']
 
 
-def get_api_response(url, querystring, key, method="GET"):
+def get_api_response(url, querystring, key, method="GET")-> requests.Response:
     url = url
     headers = {
         'x-rapidapi-key': key,
@@ -73,7 +73,7 @@ def get_api_response(url, querystring, key, method="GET"):
     return response
 
 
-def get_api_football(url, querystring, key):
+def get_api_football(url, querystring, key)-> str:
 
     response = get_api_response(url, querystring, key, method="GET")
 
@@ -88,13 +88,13 @@ def get_api_football(url, querystring, key):
     return json_response
 
 
-def draw_pretty_json(json_resp):
+def draw_pretty_json(json_resp)-> json:
     parsed = json.loads(json_resp)
     print(json.dumps(parsed, indent=4, sort_keys=True))
     return parsed
 
 
-def get_championship_data(url, key, initial=FIRST):
+def get_championship_data(url, key, initial=FIRST)-> pd.DataFrame:
     request_x_minute = 30
     df = pd.DataFrame()
     for page_ in range(initial, get_total_pages()):
@@ -112,7 +112,7 @@ def get_championship_data(url, key, initial=FIRST):
     return df
 
 
-def clean_weight_height(df):
+def clean_weight_height(df)-> pd.DataFrame:
     df['Weight_kg'] = (df['Weight'].str.extract('^([0-9]{2,3})')).astype(float)
     df['Height_cm'] = (df['Height'].str.extract('^([0-9]{3})')).astype(float)
 
@@ -122,7 +122,7 @@ def clean_weight_height(df):
 
 
 # Loop all passes accuracy api page team
-def get_data(parsed):
+def get_data(parsed)-> pd.DataFrame:
     # General
     id_list = []
     team_list = []
