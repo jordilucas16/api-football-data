@@ -4,6 +4,7 @@ import datetime
 import pandas as pd
 import requests
 import json as json
+import os
 
 # Data Path
 DATA_PATH = "data"
@@ -12,22 +13,22 @@ DATA_PATH = "data"
 API_FOOTBALL_PLAYERS_ENDPOINT = "https://api-football-v1.p.rapidapi.com/v3/players"
 
 # Championship Codes
-SPANISH_LEAGUE = "140"
-SPANISH_LEAGUE_2 = "141"
-PREMIER_LEAGUE = "39"
-BUNDESLIGA = "78"
-EREDIVISE_LEAGUE = "88"
-# DENMARK_LEAGUE = "120"
-TURKEY_LEAGUE = "203"
-MAJOR_LEAGUE = "253"
-INDIA_LEAGUE = "323"
+CHAMPIONSHIPS = {
+    "SPANISH_LEAGUE": "140",
+    "SPANISH_LEAGUE_2": "141",
+    "PREMIER_LEAGUE": "39",
+    "BUNDESLIGA": "78",
+    "EREDIVISE_LEAGUE": "88",
+    "TURKEY_LEAGUE": "203",
+    "MAJOR_LEAGUE": "253",
+    "INDIA_LEAGUE": "323"
+}
 
 # Set the championship
-CHAMPIONSHIP = SPANISH_LEAGUE
+CHAMPIONSHIP = CHAMPIONSHIPS["SPANISH_LEAGUE"]
 
 # Season year
 SEASON_22 = "2022"
-# Season year
 SEASON_23 = "2023"
 
 # Http Codes
@@ -37,24 +38,54 @@ TOO_MANY_REQUESTS = 429
 FIRST = 1
 
 
-def get_api_keys_file(path):
+def get_api_keys_file(path: str) -> dict:
+    """
+    Reads the API keys file located at the given path and returns the contents as a dictionary.
+
+    Args:
+        path (str): The path to the API keys file.
+
+    Returns:
+        dict: The contents of the API keys file as a dictionary.
+    """
     with open(path) as f:
         return json.load(f)
 
 
-def get_api_key():
+def get_api_key() -> str:
+    """
+    Retrieves the API key from the API keys file.
+
+    Returns:
+        str: The API key.
+    """
     keys = get_api_keys_file('/home/jordilucas/.secret/api_football.json')
     return keys['api_football_key']
 
 
-def save_df_to_csv(df):
+def save_df_to_csv(df: pd.DataFrame) -> None:
+    """
+    Save a DataFrame to a CSV file.
+
+    Args:
+        df (pd.DataFrame): The DataFrame to be saved.
+
+    Returns:
+        None
+    """
     datetime_now = datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
     if not os.path.exists(DATA_PATH):
         os.makedirs(DATA_PATH)
     df.to_csv(DATA_PATH+'/df_championship_' + CHAMPIONSHIP + '_' + datetime_now + '.csv', index=False, header=True)
 
 
-def get_total_pages():
+def get_total_pages() -> int:
+    """
+    Retrieves the total number of pages for the league statistics.
+
+    Returns:
+        int: The total number of pages.
+    """
     querystring_ = {"league": CHAMPIONSHIP, "season": SEASON_22, "page": 30}
     json_response_stats_league = get_api_football(API_FOOTBALL_PLAYERS_ENDPOINT, querystring_, get_api_key())
     parsed_stats_league = draw_pretty_json(json_response_stats_league)
@@ -62,7 +93,20 @@ def get_total_pages():
     return parsed_stats_league['paging']['total']
 
 
-def get_api_response(url, querystring, key, method="GET"):
+def get_api_response(url: str, querystring: dict, key: str, method: str = "GET") -> requests.Response:
+    """
+    Sends a request to the specified URL with the given querystring and API key.
+
+    Args:
+        url (str): The URL to send the request to.
+        querystring (dict): The query parameters to include in the request.
+        key (str): The API key to authenticate the request.
+        method (str, optional): The HTTP method to use for the request. Defaults to "GET".
+
+    Returns:
+        requests.Response: The response object containing the API response.
+
+    """
     url = url
     headers = {
         'x-rapidapi-key': key,
@@ -73,8 +117,16 @@ def get_api_response(url, querystring, key, method="GET"):
     return response
 
 
-def get_api_football(url, querystring, key):
+def get_api_football(url: str, querystring: dict, key: str) -> str:
+    """
+    Sends a GET request to the specified URL with the given querystring and API key.
+    Returns the JSON response as a string.
 
+    :param url: The URL to send the request to.
+    :param querystring: The query parameters to include in the request.
+    :param key: The API key to authenticate the request.
+    :return: The JSON response as a string.
+    """
     response = get_api_response(url, querystring, key, method="GET")
 
     json_response = response.text
@@ -83,18 +135,38 @@ def get_api_football(url, querystring, key):
 
     if response.status_code == TOO_MANY_REQUESTS:
         print(response.text)
-        # time.sleep(61)
 
     return json_response
 
 
-def draw_pretty_json(json_resp):
+def draw_pretty_json(json_resp: str) -> dict:
+    """
+    Prints the JSON response in a pretty and indented format.
+
+    Args:
+        json_resp (str): The JSON response to be printed.
+
+    Returns:
+        dict: The parsed JSON response.
+
+    """
     parsed = json.loads(json_resp)
     print(json.dumps(parsed, indent=4, sort_keys=True))
     return parsed
 
 
-def get_championship_data(url, key, initial=FIRST):
+def get_championship_data(url: str, key: str, initial: int = FIRST) -> pd.DataFrame:
+    """
+    Retrieves championship data from an API.
+
+    Args:
+        url (str): The URL of the API.
+        key (str): The API key.
+        initial (int, optional): The initial page number. Defaults to FIRST.
+
+    Returns:
+        pd.DataFrame: The championship data as a pandas DataFrame.
+    """
     request_x_minute = 30
     df = pd.DataFrame()
     for page_ in range(initial, get_total_pages()):
@@ -112,7 +184,16 @@ def get_championship_data(url, key, initial=FIRST):
     return df
 
 
-def clean_weight_height(df):
+def clean_weight_height(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Cleans the weight and height columns of a DataFrame.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame containing the weight and height columns.
+
+    Returns:
+    pd.DataFrame: The DataFrame with the weight and height columns cleaned.
+    """
     df['Weight_kg'] = (df['Weight'].str.extract('^([0-9]{2,3})')).astype(float)
     df['Height_cm'] = (df['Height'].str.extract('^([0-9]{3})')).astype(float)
 
@@ -121,8 +202,17 @@ def clean_weight_height(df):
     return df
 
 
-# Loop all passes accuracy api page team
-def get_data(parsed):
+
+def get_data(parsed)-> pd.DataFrame:
+    """
+    Extracts data from the parsed JSON response and returns it as a pandas DataFrame.
+
+    Args:
+        parsed (dict): Parsed JSON response containing player statistics.
+
+    Returns:
+        pd.DataFrame: DataFrame containing the extracted player statistics.
+    """
     # General
     id_list = []
     team_list = []
@@ -181,8 +271,6 @@ def get_data(parsed):
     red_card_list = []
     yellowred_card_list = []
 
-    # print("Longitud parsed[response]: {}".format(len(parsed['response'])))
-    # print("parsed_stats_league[results]: {}".format(parsed['results']))
     for i in range(0, parsed['results']):
         # Mains
         response = parsed['response'][i]
