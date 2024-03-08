@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 import json as json
 import os
+from dotenv import load_dotenv
 
 # Data Path
 DATA_PATH = "data"
@@ -54,13 +55,14 @@ def get_api_keys_file(path: str) -> dict:
 
 def get_api_key() -> str:
     """
-    Retrieves the API key from the API keys file.
+    Retrieves the API key from the environment variables.
 
     Returns:
         str: The API key.
     """
-    keys = get_api_keys_file('/home/jordilucas/.secret/api_football.json')
-    return keys['api_football_key']
+    load_dotenv()
+    api_key = os.getenv("API_FOOTBALL_KEY")
+    return api_key
 
 
 def save_df_to_csv(df: pd.DataFrame) -> None:
